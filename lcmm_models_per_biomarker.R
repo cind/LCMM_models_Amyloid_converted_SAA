@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #can also use SUVR 1.42 as a cutoff for amyloid
 library(dplyr)
 library(ggplot2)
@@ -68,27 +70,27 @@ lm_data <- data.frame(matrix(ncol = 2, nrow = 0))
 names(lm_data) <- c("RID", "predicted_date")
 
 for (id_num in 1:length(unique(change_in_amyloid_filtered$RID))) {
-  
+
   id <- unique(change_in_amyloid_filtered$RID)[id_num]
-  
+
   temp_data_model <- change_in_amyloid_filtered %>%
     dplyr::filter(RID == id)
-  
+
   temp_lm <- lm(EXAMDATE_pet ~ Centiloid, data = temp_data_model)
-  
+
   predicted_value <- predict(temp_lm, data.frame(Centiloid = 20))
-  
+
   temp_data_predictions <- data.frame(matrix(ncol = 2, nrow = 1))
   names(temp_data_predictions) <- c("RID", "predicted_date")
-  
+
   temp_data_predictions$RID <- id
   temp_data_predictions$predicted_date <- as.Date(predicted_value)
-  
+
   # predicted_value <- as.Date(predicted_value)
-  
+
   # predicted_values_lm <- cbind(predicted_values_lm, as.Date(predicted_value))
   lm_data <- rbind(lm_data, temp_data_predictions)
-  
+
 }
 
 #####################################################################################
@@ -136,7 +138,7 @@ dem_all <- dem
 
 dem <- dem %>%
   dplyr::filter(RID %in% unique(centiloid_plot_data$RID))
-  
+
 
 #############################################################################
 #
@@ -184,7 +186,7 @@ centiloid_plot_data <- centiloid_plot_data %>%
   dplyr::mutate(age = round(age, digits = 1))
 centiloid_plot_data$RID <- as.numeric(centiloid_plot_data$RID)
 
-centiloid_splines <- lcmm(Centiloid ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"), 
+centiloid_splines <- lcmm(Centiloid ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                           random = ~adjusted_new_time, subject="RID", maxiter = 300, data = centiloid_plot_data, link = "3-equi-splines")
 
 summary(centiloid_splines) #3-spline: 2385.50
