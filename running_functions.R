@@ -7,7 +7,6 @@ centiloid_plot_data <- read.csv(file.path(root, "centiloid_lcmm_data.csv"))
 tau_plot_data <- read.csv(file.path(root, "tau_lcmm_data.csv"))
 ptau_plot_data <- read.csv(file.path(root, "ptau_lcmm_data.csv"))
 abeta_plot_data <- read.csv(file.path(root, "abeta_lcmm_data.csv"))
-npi_plot_data <- read.csv(file.path(root, "npi_lcmm_data.csv"))
 mpacctrailsb_plot_data <- read.csv(file.path(root, "mpacctrailsb_lcmm_data.csv"))
 cdrsb_plot_data <- read.csv(file.path(root, "cdrsb_lcmm_data.csv"))
 mmse_plot_data <- read.csv(file.path(root, "mmse_lcmm_data.csv"))
@@ -31,9 +30,9 @@ datnew   <- data.frame(adjusted_new_time = seq(-8, 8, length = 200),
 centiloid_splines <- lcmm(Centiloid ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                           random = ~adjusted_new_time, subject="RID", maxiter = 300, data = centiloid_plot_data, link = "3-equi-splines")
 
-summary(centiloid_splines) #3-spline: 2385.50
+#summary(centiloid_splines)
 
-centiloid_predict_splines <- predictlink(centiloid_splines)
+#centiloid_predict_splines <- predictlink(centiloid_splines)
 
 centiloid_test <- predictY(centiloid_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -47,9 +46,9 @@ write.csv(centiloid_bootstrapped_data, "~\\centiloid_bootstrapped_data.csv")
 fdg_splines <- lcmm(adjusted_Meta_ROI ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                     random = ~adjusted_new_time, subject="RID", maxiter = 300, data = fdg_plot_data, link = "3-equi-splines")
 
-summary(fdg_splines) #3-spline: -607.96
+#summary(fdg_splines)
 
-fdg_predict_splines <- predictlink(fdg_splines)
+#fdg_predict_splines <- predictlink(fdg_splines)
 
 fdg_test <- predictY(fdg_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -64,9 +63,9 @@ write.csv(fdg_bootstrapped_data, "~\\fdg_bootstrapped_data.csv")
 adas13_splines <- lcmm(ADAS13 ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                        random = ~adjusted_new_time, subject="RID", ng = 1, maxiter = 300, data = adas13_plot_data, link = "3-equi-splines")
 
-summary(adas13_splines) #3-spline: 3599.46
+#summary(adas13_splines)
 
-adas13_predict_splines <- predictlink(adas13_splines)
+#adas13_predict_splines <- predictlink(adas13_splines)
 
 adas13_test <- predictY(adas13_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -80,9 +79,9 @@ write.csv(adas13_bootstrapped_data, "~\\adas13_bootstrapped_data.csv")
 mmse_splines <- lcmm(MMSE ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                      random = ~adjusted_new_time, subject="RID", maxiter = 300, data = mmse_plot_data, link = "3-equi-splines")
 
-summary(mmse_splines) #3-spline: 2176.99
+#summary(mmse_splines)
 
-mmse_predict_splines <- predictlink(mmse_splines)
+#mmse_predict_splines <- predictlink(mmse_splines)
 
 mmse_test <- predictY(mmse_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -96,9 +95,9 @@ write.csv(mmse_bootstrapped_data, "~\\mmse_bootstrapped_data.csv")
 cdrsb_splines <- lcmm(CDRSB ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = cdrsb_plot_data, link = "3-equi-splines")
 
-summary(cdrsb_splines) #3-spline: 664.42
+#summary(cdrsb_splines)
 
-cdrsb_predict_splines <- predictlink(cdrsb_splines)
+#cdrsb_predict_splines <- predictlink(cdrsb_splines)
 
 cdrsb_test <- predictY(cdrsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -112,9 +111,9 @@ write.csv(cdrsb_bootstrapped_data, "~\\cdrsb_bootstrapped_data.csv")
 mpacctrailsb_splines <- lcmm(mPACCtrailsB ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                              random = ~adjusted_new_time, subject="RID", maxiter = 300, data = mpacctrailsb_plot_data, link = "3-equi-splines")
 
-summary(mpacctrailsb_splines) #3-spline: 3074.27
+#summary(mpacctrailsb_splines)
 
-mpacctrailsb_predict_splines <- predictlink(mpacctrailsb_splines)
+#mpacctrailsb_predict_splines <- predictlink(mpacctrailsb_splines)
 
 mpacctrailsb_test <- predictY(mpacctrailsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -123,31 +122,14 @@ mpacctrailsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterati
 write.csv(mpacctrailsb_bootstrapped_data, "~\\mpacctrailsb_bootstrapped_data.csv")
 
 ###########################################################################################################
-# NPI
-###########################################################################################################
-
-npi_splines <- lcmm(NPISCORE ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
-                    random = ~adjusted_new_time, subject="RID", maxiter = 300, data = npi_plot_data, link = "3-equi-splines")
-
-summary(npi_splines) #3-spline: 2853.32
-
-npi_predict_splines <- predictlink(npi_splines)
-
-npi_test <- predictY(npi_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-
-npi_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = npi_plot_data, name_of_biomarker = "NPISCORE")
-
-write.csv(npi_bootstrapped_data, "~\\npi_bootstrapped_data.csv")
-
-###########################################################################################################
 # TAU
 ###########################################################################################################
 tau_splines <- lcmm(TAU ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                     random = ~adjusted_new_time, subject="RID", maxiter = 300, data = tau_plot_data, link = "3-equi-splines")
 
-summary(tau_splines) #3-spline: 1979.6
+#summary(tau_splines)
 
-tau_predict_splines <- predictlink(tau_splines)
+#tau_predict_splines <- predictlink(tau_splines)
 
 tau_test <- predictY(tau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -161,9 +143,9 @@ write.csv(tau_bootstrapped_data, "~\\tau_bootstrapped_data.csv")
 ptau_splines <- lcmm(PTAU ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                      random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ptau_plot_data, link = "3-equi-splines")
 
-summary(ptau_splines) #3-spline: 1002.72
+#summary(ptau_splines)
 
-ptau_predict_splines <- predictlink(ptau_splines)
+#ptau_predict_splines <- predictlink(ptau_splines)
 
 ptau_test <- predictY(ptau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -177,9 +159,9 @@ write.csv(ptau_bootstrapped_data, "~\\ptau_bootstrapped_data.csv")
 abeta_splines <- lcmm(ABETA ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = abeta_plot_data, link = "3-equi-splines")
 
-summary(abeta_splines) #3-spline: 1002.72
+#summary(abeta_splines)
 
-abeta_predict_splines <- predictlink(ptau_splines)
+#abeta_predict_splines <- predictlink(ptau_splines)
 
 abeta_test <- predictY(abeta_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -194,9 +176,9 @@ write.csv(abeta_bootstrapped_data, "~\\abeta_bootstrapped_data.csv")
 meta_ROI_splines <- lcmm(meta_ROI ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                          random = ~adjusted_new_time, subject="RID", maxiter = 300, data = meta_roi_plot_data, link = "3-equi-splines")
 
-summary(meta_ROI_splines) #3-spline: -854.1
+#summary(meta_ROI_splines)
 
-meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
+#meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
 
 meta_ROI_test <- predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -210,9 +192,9 @@ write.csv(meta_ROI_bootstrapped_data, "~\\meta_ROI_bootstrapped_data.csv")
 hippocampal_splines <- lcmm(hippocampal_volume ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                             random = ~adjusted_new_time, subject="RID", maxiter = 300, data = hippocampal_volume_plot_data, link = "3-equi-splines")
 
-summary(hippocampal_splines) #3-spline: 6444.02
+#summary(hippocampal_splines)
 
-hippocampal_predict_splines <- predictlink(hippocampal_splines)
+#hippocampal_predict_splines <- predictlink(hippocampal_splines)
 
 hippocampal_test <- predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
@@ -223,31 +205,31 @@ write.csv(hippocampal_bootstrapped_data, "~\\hippocampal_bootstrapped_data.csv")
 ############################################################################################################
 #E-COG: Subject
 ############################################################################################################
-ecog_s_splines <- lcmm(EcogPtMem ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+ecog_s_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                        random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_s_plot_data, link = "3-equi-splines")
 
-summary(ecog_s_splines) #3-spline: 6444.02
+#summary(ecog_s_splines)
 
-ecog_s_predict_splines <- predictlink(ecog_s_splines)
+#ecog_s_predict_splines <- predictlink(ecog_s_splines)
 
 ecog_s_test <- predictY(ecog_s_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogPtMem")
+ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
 
 write.csv(ecog_s_bootstrapped_data, "~\\ecog_s_bootstrapped_data.csv")
 
 ############################################################################################################
 #E-COG: Partner
 ############################################################################################################
-ecog_p_splines <- lcmm(EcogSPMem ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+ecog_p_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                        random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_p_plot_data, link = "3-equi-splines")
 
-summary(ecog_p_splines) #3-spline: 6444.02
+#summary(ecog_p_splines)
 
-ecog_p_predict_splines <- predictlink(ecog_p_splines)
+#ecog_p_predict_splines <- predictlink(ecog_p_splines)
 
 ecog_p_test <- predictY(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogPtMem")
+ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
 
 write.csv(ecog_p_bootstrapped_data, "~\\ecog_p_bootstrapped_data.csv")
