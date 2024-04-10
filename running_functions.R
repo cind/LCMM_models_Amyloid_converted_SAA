@@ -138,7 +138,7 @@ npi_test <- predictY(npi_splines, datnew, var.time = "adjusted_new_time", draws 
 
 npi_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = npi_plot_data, name_of_biomarker = "NPISCORE")
 
-write.csv(npi_bootstrapped_data, file.path(output_dir, "npi_bootstrapped_data.csv"))
+write.csv(npi_bootstrapped_data, file.path(output_root, "npi_bootstrapped_data.csv"))
 
 ###########################################################################################################
 # TAU
@@ -154,7 +154,7 @@ tau_test <- predictY(tau_splines, datnew, var.time = "adjusted_new_time", draws 
 
 tau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = tau_plot_data, name_of_biomarker = "TAU")
 
-write.csv(tau_bootstrapped_data, file.path(output_dir, "tau_bootstrapped_data.csv"))
+write.csv(tau_bootstrapped_data, file.path(output_root, "tau_bootstrapped_data.csv"))
 
 ###########################################################################################################
 # PTAU
@@ -170,7 +170,7 @@ ptau_test <- predictY(ptau_splines, datnew, var.time = "adjusted_new_time", draw
 
 ptau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
 
-write.csv(ptau_bootstrapped_data, file.path(output_dir, "ptau_bootstrapped_data.csv"))
+write.csv(ptau_bootstrapped_data, file.path(output_root, "ptau_bootstrapped_data.csv"))
 
 ###########################################################################################################
 # ABETA
