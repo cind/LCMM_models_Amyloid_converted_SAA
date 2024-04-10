@@ -2,6 +2,7 @@
 library("parallel")
 
 lcmm_helper <- function(n_sample, lcmm_data, name_of_biomarker) {
+    print(name_of_biomarker)
     boot <- sample(n_sample, n_sample, replace = TRUE)
 
     # lcmm_data$biomarker <- lcmm_data[,"name_of_biomarker"]
