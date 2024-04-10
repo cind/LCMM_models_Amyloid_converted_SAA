@@ -16,9 +16,13 @@ There is also a testing entry point script, `running_functions.R`.
 
 # Linux Runs Sans RStudio
 
-At the CIND you set the R version, `export RVERSION=4.3.2` and then the R library path, `export R_LIBS=~/Renv`.
+Install libraries after setting the two env variables, `R CMD BATCH create_r_environment.r`.
+
+At the CIND you set the R version, `export RVERSION=4.3.2` and then the R library path, `export R_LIBS_USER=~/Renv`.
 
 Run on terminal with, `R CMD BATCH running_functions.R`. Output will be in a file `running_functions.Rout`.
+
+
 
 
 
