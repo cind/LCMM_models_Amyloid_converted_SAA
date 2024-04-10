@@ -14,3 +14,11 @@ First attempt to speed up will be the native R package `parallel`. A data set ha
 
 There is also a testing entry point script, `running_functions.R`.
 
+# Linux Runs Sans RStudio
+
+At the CIND you set the R version, `export RVERSION=4.3.2` and then the R library path, `export R_LIBS=~/Renv`.
+
+Run on terminal with, `R CMD BATCH running_functions.R`. Output will be in a file `running_functions.Rout`.
+
+
+
