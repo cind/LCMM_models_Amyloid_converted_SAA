@@ -15,7 +15,12 @@ hippocampal_volume_plot_data <- read.csv("~\\hippocampal_volume_lcmm_data.csv")
 adas13_plot_data <- read.csv("~\\adas13_lcmm_data.csv")
 ecog_s_plot_data <- read.csv("~\\ecog_s_lcmm_data.csv")
 ecog_p_plot_data <- read.csv("~\\ecog_p_lcmm_data.csv")
-datnew <- 
+datnew   <- data.frame(adjusted_new_time = seq(-8, 8, length = 200),
+                       age = round(seq(55.7, 95.4, length = 100), 1),
+                       apoe = sample(c("E2", "E3", "E4"), 100, prob = c(0.06, 0.56, 0.38), replace = TRUE),
+                       PTGENDER = sample(c(1, 2), 100, prob = c(0.45, 0.55), replace = TRUE),
+                       PTEDUCAT = sample(c(12, 13, 14, 15, 16, 17, 18, 19, 20), 100, prob = c(0.11, 0.03, 0.04, 0.05, 0.26, 0.05, 0.22, 0.08, 0.14), replace = TRUE)
+) 
 
 #############################################################################
 #Centiloid
