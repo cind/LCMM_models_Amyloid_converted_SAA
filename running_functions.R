@@ -37,7 +37,7 @@ centiloid_predict_splines <- predictlink(centiloid_splines)
 
 centiloid_test <- predictY(centiloid_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-centiloid_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = centiloid_plot_data, name_of_biomarker = "Centiloid")
+centiloid_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = centiloid_plot_data, name_of_biomarker = "Centiloid")
 
 write.csv(centiloid_bootstrapped_data, "~\\centiloid_bootstrapped_data.csv")
 
@@ -53,7 +53,7 @@ fdg_predict_splines <- predictlink(fdg_splines)
 
 fdg_test <- predictY(fdg_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-fdg_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = fdg_plot_data, name_of_biomarker = "adjusted_Meta_ROI")
+fdg_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = fdg_plot_data, name_of_biomarker = "adjusted_Meta_ROI")
 
 write.csv(fdg_bootstrapped_data, "~\\fdg_bootstrapped_data.csv")
 
@@ -70,7 +70,7 @@ adas13_predict_splines <- predictlink(adas13_splines)
 
 adas13_test <- predictY(adas13_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-adas13_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = adas13_plot_data, name_of_biomarker = "ADAS13")
+adas13_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = adas13_plot_data, name_of_biomarker = "ADAS13")
 
 write.csv(adas13_bootstrapped_data, "~\\adas13_bootstrapped_data.csv")
 
@@ -86,7 +86,7 @@ mmse_predict_splines <- predictlink(mmse_splines)
 
 mmse_test <- predictY(mmse_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-mmse_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = mmse_plot_data, name_of_biomarker = "MMSE")
+mmse_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = mmse_plot_data, name_of_biomarker = "MMSE")
 
 write.csv(mmse_bootstrapped_data, "~\\mmse_bootstrapped_data.csv")
 
@@ -102,7 +102,7 @@ cdrsb_predict_splines <- predictlink(cdrsb_splines)
 
 cdrsb_test <- predictY(cdrsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-cdrsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
+cdrsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
 
 write.csv(cdrsb_bootstrapped_data, "~\\cdrsb_bootstrapped_data.csv")
 
@@ -118,7 +118,7 @@ mpacctrailsb_predict_splines <- predictlink(mpacctrailsb_splines)
 
 mpacctrailsb_test <- predictY(mpacctrailsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-mpacctrailsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = mpacctrailsb_plot_data, name_of_biomarker = "mPACCtrailsB")
+mpacctrailsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = mpacctrailsb_plot_data, name_of_biomarker = "mPACCtrailsB")
 
 write.csv(mpacctrailsb_bootstrapped_data, "~\\mpacctrailsb_bootstrapped_data.csv")
 
@@ -135,7 +135,7 @@ npi_predict_splines <- predictlink(npi_splines)
 
 npi_test <- predictY(npi_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-npi_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = npi_plot_data, name_of_biomarker = "NPISCORE")
+npi_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = npi_plot_data, name_of_biomarker = "NPISCORE")
 
 write.csv(npi_bootstrapped_data, "~\\npi_bootstrapped_data.csv")
 
@@ -151,7 +151,7 @@ tau_predict_splines <- predictlink(tau_splines)
 
 tau_test <- predictY(tau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-tau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = tau_plot_data, name_of_biomarker = "TAU")
+tau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = tau_plot_data, name_of_biomarker = "TAU")
 
 write.csv(tau_bootstrapped_data, "~\\tau_bootstrapped_data.csv")
 
@@ -167,7 +167,7 @@ ptau_predict_splines <- predictlink(ptau_splines)
 
 ptau_test <- predictY(ptau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-ptau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
+ptau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
 
 write.csv(ptau_bootstrapped_data, "~\\ptau_bootstrapped_data.csv")
 
@@ -183,7 +183,7 @@ abeta_predict_splines <- predictlink(ptau_splines)
 
 abeta_test <- predictY(abeta_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-abeta_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = abeta_plot_data, name_of_biomarker = "ABETA")
+abeta_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = abeta_plot_data, name_of_biomarker = "ABETA")
 
 write.csv(abeta_bootstrapped_data, "~\\abeta_bootstrapped_data.csv")
 
@@ -200,7 +200,7 @@ meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
 
 meta_ROI_test <- predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
+meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
 
 write.csv(meta_ROI_bootstrapped_data, "~\\meta_ROI_bootstrapped_data.csv")
 
@@ -216,7 +216,7 @@ hippocampal_predict_splines <- predictlink(hippocampal_splines)
 
 hippocampal_test <- predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
+hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
 write.csv(hippocampal_bootstrapped_data, "~\\hippocampal_bootstrapped_data.csv")
 
@@ -232,7 +232,7 @@ ecog_s_predict_splines <- predictlink(ecog_s_splines)
 
 ecog_s_test <- predictY(ecog_s_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogPtMem")
+ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogPtMem")
 
 write.csv(ecog_s_bootstrapped_data, "~\\ecog_s_bootstrapped_data.csv")
 
@@ -247,8 +247,7 @@ summary(ecog_p_splines) #3-spline: 6444.02
 ecog_p_predict_splines <- predictlink(ecog_p_splines)
 
 ecog_p_test <- predictY(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-# ecog_p_test <- predictL(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 100, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogPtMem")
+ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogPtMem")
 
 write.csv(ecog_p_bootstrapped_data, "~\\ecog_p_bootstrapped_data.csv")
