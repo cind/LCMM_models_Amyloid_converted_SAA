@@ -1,4 +1,6 @@
 library(lcmm)
+source("~/home/vhasfccuneod/Biomarkers_bootstrap_parallel/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/helper_functions.R")
+
 
 root = "/home/vhasfccuneod/Biomarkers_bootstrap_parallel/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/lcmm_modelling_data"
 centiloid_plot_data <- read.csv(file.path(root, "centiloid_lcmm_data.csv"))
