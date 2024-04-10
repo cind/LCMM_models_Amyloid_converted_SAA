@@ -7,9 +7,9 @@
 
 # The library `parallel`, seems to be included in the base distribution and throws a warning when trying to install.
 # install the R packages, if nbt already installed
-for (package in c("plyr", "ggplot2", "segmented", "lcmm", "ggrepel")) {
+for (package in c("plyr", "ggplot2", "segmented", "lcmm", "ggrepel", "reshape2", "devtools")) {
           if (!require(package, character.only=TRUE, quietly=TRUE)) {
-                            install.packages(package, repos = "http://cran.us.r-project.org", lib="/home/vhasfccuneod/Renv")
+                            install.packages(package, repos = "http://cran.us.r-project.org", dependencies=TRUE, lib="/home/vhasfccuneod/Renv")
     library(package, character.only=TRUE, quietly=TRUE)
           }
 }
