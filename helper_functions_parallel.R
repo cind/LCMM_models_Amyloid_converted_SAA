@@ -1,7 +1,7 @@
 ################################################################################################  Bootstrapping Function  #####################################################################################################
 library("parallel")
 
-lcmm_helper <- function(n_sample, lcmm_data) {
+lcmm_helper <- function(n_sample, lcmm_data, name_of_biomarker) {
     boot <- sample(n_sample, n_sample, replace = TRUE)
 
     # lcmm_data$biomarker <- lcmm_data[,"name_of_biomarker"]
@@ -33,7 +33,7 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
 
   set.seed(121)
   # No parallel, test the code.
-  lcmm_helper(n_sample, lcmm_data)
+  lcmm_helper(n_sample, lcmm_data, name_of_biomarker)
   #mclapply(seq(1, 1000), lcmm_helper, c(n_sample, lcmm_data))
 
 
