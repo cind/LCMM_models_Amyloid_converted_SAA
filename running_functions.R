@@ -3,6 +3,8 @@ source("~/home/vhasfccuneod/Biomarkers_bootstrap_parallel/Longitudinal-COMBAT-GA
 
 
 root = "/home/vhasfccuneod/Biomarkers_bootstrap_parallel/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/lcmm_modelling_data"
+source("/home/vhasfccuneod/Biomarkers_bootstrap_parallel/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/helper_functions_parallel.R")
+
 centiloid_plot_data <- read.csv(file.path(root, "centiloid_lcmm_data.csv"))
 tau_plot_data <- read.csv(file.path(root, "tau_lcmm_data.csv"))
 ptau_plot_data <- read.csv(file.path(root, "ptau_lcmm_data.csv"))
@@ -11,7 +13,7 @@ npi_plot_data <- read.csv(file.path(root, "npi_lcmm_data.csv"))
 mpacctrailsb_plot_data <- read.csv(file.path(root, "mpacctrailsb_lcmm_data.csv"))
 cdrsb_plot_data <- read.csv(file.path(root, "cdrsb_lcmm_data.csv"))
 mmse_plot_data <- read.csv(file.path(root, "mmse_lcmm_data.csv"))
-fdg_plot_data <- read.csv(file.path(root, "dg_lcmm_data.csv"))
+fdg_plot_data <- read.csv(file.path(root, "fdg_lcmm_data.csv"))
 meta_roi_plot_data <- read.csv(file.path(root, "meta_roi_lcmm_data.csv"))
 hippocampal_volume_plot_data <- read.csv(file.path(root, "hippocampal_volume_lcmm_data.csv"))
 adas13_plot_data <- read.csv(file.path(root, "adas13_lcmm_data.csv"))
