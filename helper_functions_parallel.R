@@ -1,7 +1,7 @@
 ################################################################################################  Bootstrapping Function  #####################################################################################################
 library("parallel")
 
-lcmm_helper <- function(n_sample) {
+lcmm_helper <- function(n_sample, lcmm_data) {
     boot <- sample(n_sample, n_sample, replace = TRUE)
 
     # lcmm_data$biomarker <- lcmm_data[,"name_of_biomarker"]
@@ -22,7 +22,6 @@ lcmm_helper <- function(n_sample) {
   }
 
 lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomarker) {
-  options(mc.cores = 8)
 
   #prepping for bootstrapping
   n_sample <- nrow(lcmm_data)
@@ -32,9 +31,11 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   boot_derivs <- as.data.frame(boot_derivs)
   boot_pred <- numeric(B) #for the predictions
 
-  #making a for loop for the iterations
   set.seed(121)
-  mclapply(seq(1, n_iterations), lcmm_helper, .pb = set_kpb)
+  # No parallel, test the code.
+  lcmm_helper(n_sample, lcmm_data)
+  #mclapply(seq(1, 1000), lcmm_helper, c(n_sample, lcmm_data))
+
 
   boot_pred_data <- as.data.frame(boot_pred)
   data_2.5 <- boot_pred_data[ , grepl( "Ypred_2.5" , names( boot_pred_data ) ) ]
