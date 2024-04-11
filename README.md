@@ -9,6 +9,9 @@ to compute 100 iteration boot strap.
 
 ## Parallel Library
 
+Check the section of `doParallel` with the `foreach` structure:
+https://cran.r-project.org/web/packages/knitrProgressBar/vignettes/multiprocessing.html
+
 First attempt to speed up will be the native R package `parallel`. A data set has been included in this repo for testing,
 `lcmm_modelling_data`.
 
