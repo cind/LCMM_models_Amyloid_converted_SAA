@@ -4,7 +4,7 @@ library(foreach)
 library(doParallel)
 
 lcmm_helper <- function(ind, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs) {
-    print(name_of_biomarker)
+    sprintf("%i:%s", ind, name_of_biomarker)
     boot <- sample(n_sample, n_sample, replace = TRUE)
 
     # lcmm_data$biomarker <- lcmm_data[,"name_of_biomarker"]
@@ -34,9 +34,8 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   set.seed(121)
   # No parallel, test the code.
   #lcmm_helper(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
-  #mclapply(seq(1, 1000), lcmm_helper, c(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs), mc.Cores=4)
 
-  registerDoParallel(numCores=15)
+  registerDoParallel(16)
   foreach (i=1:B) %dopar% {
     lcmm_helper(i, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
   }
