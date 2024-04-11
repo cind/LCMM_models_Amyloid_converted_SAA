@@ -18,7 +18,7 @@ for (package in c("plyr", "ggplot2", "segmented", "lcmm", "ggrepel", "reshape2",
 devtools::install_github("dgrtwo/ebbr")
 
 if (!require("BiocManager", quietly = TRUE))
-        install.packages("BiocManager")
+    install.packages("BiocManager", repos = "http://cran.us.r-project.org", dependencies=TRUE, lib="/home/vhasfccuneod/Renv")
 
 BiocManager::install("BiocParallel")
 
