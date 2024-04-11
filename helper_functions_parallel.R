@@ -1,7 +1,9 @@
 ################################################################################################  Bootstrapping Function  #####################################################################################################
-library("parallel")
+#library("parallel")
+library(foreach)
+library(doParallel)
 
-lcmm_helper <- function(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs) {
+lcmm_helper <- function(ind, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs) {
     print(name_of_biomarker)
     boot <- sample(n_sample, n_sample, replace = TRUE)
 
@@ -12,15 +14,11 @@ lcmm_helper <- function(new_data, n_sample, lcmm_data, name_of_biomarker, boot_p
     fit.b <- lcmm(biomarker ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
                   random = ~adjusted_new_time, subject="RID", maxiter = 300, data = lcmm_data[boot,], link = "3-equi-splines")
 
-    # Where not looping here. Plus multi core doesn't share memory.
-    # Might need to write out each of these to a csv and aggregate later.
+    boot_pred[ind] <- predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
+    boot_pred_fit <- as.data.frame(boot_pred[i])
+    boot_derivs[,ind] <- diff(boot_pred_fit$Ypred_50)/diff(new_data$adjusted_new_time)
 
-    #boot_pred[i] <- predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
-    #boot_pred_fit <- as.data.frame(boot_pred[i])
-    #boot_derivs[,i] <- diff(boot_pred_fit$Ypred_50)/diff(new_data$adjusted_new_time)
-
-    # Run the predict to test out performance with parallel.
-    predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
+    # Do we need to return data here ???
   }
 
 lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomarker) {
@@ -35,10 +33,13 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
 
   set.seed(121)
   # No parallel, test the code.
-  lcmm_helper(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
-
+  #lcmm_helper(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
   #mclapply(seq(1, 1000), lcmm_helper, c(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs), mc.Cores=4)
-  quit()
+
+  registerDoParallel(numCores=15)
+  foreach (i=1:B) %dopar% {
+    lcmm_helper(i, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
+  }
 
   boot_pred_data <- as.data.frame(boot_pred)
   data_2.5 <- boot_pred_data[ , grepl( "Ypred_2.5" , names( boot_pred_data ) ) ]
