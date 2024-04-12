@@ -1,5 +1,4 @@
 ################################################################################################  Bootstrapping Function  #####################################################################################################
-#library("parallel")
 library(foreach)
 library(doParallel)
 
@@ -33,11 +32,15 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
 
   set.seed(121)
   # No parallel, test the code.
-  #lcmm_helper(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
+  #i <- 1
+  #lcmm_helper(i, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
 
   registerDoParallel(16)
-  foreach (i=1:B) %dopar% {
-    lcmm_helper(i, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
+  print("running loop")
+  ind <- 1
+  foreach (i<-1:B) %dopar% {
+    lcmm_helper(ind, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
+    ind <- ind + 1
   }
 
   boot_pred_data <- as.data.frame(boot_pred)
