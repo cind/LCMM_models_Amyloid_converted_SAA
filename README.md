@@ -25,6 +25,9 @@ At the CIND you set the R version, `export RVERSION=4.3.2` and then the R librar
 
 Run on terminal with, `R CMD BATCH running_functions.R`. Output will be in a file `running_functions.Rout`.
 
+Normally it's nicer to run R programs on the command line with `Rscript`, which appears to be a thin C wrapper that forks the process and captures the STDOUT and STDERR. y installation of  R v4.3.2 has a minor bug due to using `/mnt/c7_opt` as a mount. I think the ELF file has that pathhard coded. Possibly fixable with `patchelf`.
+
+
 
 
 
