@@ -8,8 +8,8 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   n_sample <- nrow(lcmm_data)
   n_rows <- nrow(new_data) # newdata for predictions
   B <- n_iterations
-  boot_derivs <- matrix(nrow = n_rows-1, ncol=B) #for the finite difference
-  boot_derivs <- as.data.frame(boot_derivs)
+  #boot_derivs <- matrix(nrow = n_rows-1, ncol=B) #for the finite difference
+  #boot_derivs <- as.data.frame(boot_derivs)
   boot_pred <- numeric(B) #for the predictions
 
   
@@ -23,13 +23,10 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   # }
   
   registerDoParallel(16)
-  foreach(ind = 1:B) %dopar% {
-    # ind = i
+  bootstrapped_list_values <- foreach(ind = 1:B) %dopar% {
     sprintf("%i:%s", ind, name_of_biomarker)
     boot <- sample(n_sample, n_sample, replace = TRUE)
     
-    # lcmm_data$biomarker <- lcmm_data[,"name_of_biomarker"]
-    #lcmm_data$biomarker <- lcmm_data[ , as.character(substitute(name_of_biomarker))]
     lcmm_data$biomarker <- lcmm_data[ , name_of_biomarker]
     
     fit.b <- lcmm::lcmm(biomarker ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
@@ -37,11 +34,7 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
     
     boot_pred[ind] <- lcmm::predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
     boot_pred_fit <- as.data.frame(boot_pred[ind])
-    boot_derivs[,ind] <- diff(boot_pred_fit$Ypred_50)/diff(new_data$adjusted_new_time)
-    boot_derivs_for_bind <- append(boot_derivs[,ind], NA)
-    boot_derivs_for_bind$biomarker <- name_of_biomarker
-      
-    bootstrapped_list_values <- cbind(boot_pred_fit, boot_derivs_for_bind) 
+    return(boot_pred_fit)
   }
   
   return(bootstrapped_list_values)
