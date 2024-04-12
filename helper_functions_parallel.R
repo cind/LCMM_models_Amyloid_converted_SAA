@@ -2,6 +2,18 @@
 library("parallel")
 
 
+lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomarker) {
+  
+  #prepping for bootstrapping
+  n_sample <- nrow(lcmm_data)
+  n_rows <- nrow(new_data) # newdata for predictions
+  B <- n_iterations
+  boot_derivs <- matrix(nrow = n_rows-1, ncol=B) #for the finite difference
+  boot_derivs <- as.data.frame(boot_derivs)
+  boot_pred <- numeric(B) #for the predictions
+
+  
+  set.seed(121)
   # No parallel, test the code.
   #lcmm_helper(new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
   
@@ -33,6 +45,9 @@ library("parallel")
   }
   
   return(bootstrapped_list_values)
+  
+}
+
   
 
 ################################################################################################  Smoothing Function  #####################################################################################################
