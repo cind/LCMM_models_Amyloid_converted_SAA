@@ -14,7 +14,7 @@ lcmm_helper <- function(ind, new_data, n_sample, lcmm_data, name_of_biomarker, b
                   random = ~adjusted_new_time, subject="RID", maxiter = 300, data = lcmm_data[boot,], link = "3-equi-splines")
 
     boot_pred[ind] <- predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
-    boot_pred_fit <- as.data.frame(boot_pred[i])
+    boot_pred_fit <- as.data.frame(boot_pred[ind])
     boot_derivs[,ind] <- diff(boot_pred_fit$Ypred_50)/diff(new_data$adjusted_new_time)
 
     # Do we need to return data here ???
@@ -41,6 +41,7 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   foreach (i<-1:B) %dopar% {
     lcmm_helper(ind, new_data, n_sample, lcmm_data, name_of_biomarker, boot_pred, boot_derivs)
     ind <- ind + 1
+    sprintf("%i", ind)
   }
 
   boot_pred_data <- as.data.frame(boot_pred)
