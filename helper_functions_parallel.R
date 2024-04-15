@@ -23,6 +23,7 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   B <- n_iterations
   boot_pred <- numeric(B) #for the predictions
 
+  #bootstrap
   registerDoParallel(16)
   bootstrapped_list_values <- foreach(ind = 1:B) %dopar% {
     sprintf("%i:%s", ind, name_of_biomarker)
@@ -36,6 +37,7 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
     
     boot_pred[ind] <- lcmm::predictY(fit.b, new_data, var.time = "adjusted_new_time", draws = TRUE)
     boot_pred_fit <- as.data.frame(boot_pred[ind])
+    
     return(boot_pred_fit)
   }
   
@@ -43,7 +45,59 @@ lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomark
   
 }
 
+#function to estimate confidence intervals
+confidence_interval <- function(vector, interval) {
   
+  # Standard deviation of sample
+  vec_sd <- sd(vector)
+  
+  # Sample size
+  n <- length(vector)
+  
+  # Mean of sample
+  vec_mean <- mean(vector)
+  
+  # Error according to t distribution
+  error <- qt((interval + 1)/2, df = n - 1) * vec_sd / sqrt(n)
+  
+  # Confidence interval as a vector
+  result <- c("lower" = vec_mean - error, "upper" = vec_mean + error)
+  
+  return(result)
+  
+}
+
+#function to take the list coming out of lcmm_bootstrap_ci() and estimate confidence intervals for both the predictions and the slopes
+ci_estimates_function <- function(bootstrapped_data_list, new_data, biomarker_name) {
+  
+  # creating new variables in each dataframe for finite difference calculation
+  bootstrapped_data_list <- lapply(bootstrapped_data_list, function(x) cbind(x, adjusted_new_time = new_data$adjusted_new_time))
+  bootstrapped_data_list <- lapply(bootstrapped_data_list, function(x) within(x, diffs <- append(NA, diff(Ypred_50)/diff(adjusted_new_time))))
+  
+  #getting confidence intervals for the predictions
+  y_pred_50 <- lapply(bootstrapped_data_list, function(x) x$Ypred_50)
+  y_pred_50_data <- as.data.frame(do.call(rbind, y_pred_50)) # bind_cols(lapply(y_pred_50, as.data.frame.list))
+  predictions_ci <- lapply(seq(1,length(y_pred_50_data)), function(x){confidence_interval(y_pred_50_data[,x], interval = .95)})
+  new_data$predictions_ci_lower <- lapply(seq(1,length(predictions_ci)), function(x) {predictions_ci[[x]][[1]]})
+  new_data$predictions_ci_upper <- lapply(seq(1,length(predictions_ci)), function(x) {predictions_ci[[x]][[2]]})
+  new_data$predictions_ci_lower <- as.numeric(new_data$predictions_ci_lower)
+  new_data$predictions_ci_upper <- as.numeric(new_data$predictions_ci_upper)
+  
+  #getting confidence intervals for the slopes
+  diffs <- lapply(bootstrapped_data_list, function(x) x$diffs)
+  diffs_data <- as.data.frame(do.call(rbind, diffs)) # bind_cols(lapply(y_pred_50, as.data.frame.list))
+  diffs_ci <- lapply(seq(1,length(diffs_data)),function(x){confidence_interval(diffs_data[,x], interval = .95)})
+  new_data$diffs_ci_lower <- lapply(seq(1,length(diffs_ci)), function(x) {diffs_ci[[x]][[1]]})
+  new_data$diffs_ci_upper <- lapply(seq(1,length(diffs_ci)), function(x) {diffs_ci[[x]][[2]]})
+  new_data$diffs_ci_lower <- as.numeric(new_data$diffs_ci_lower)
+  new_data$diffs_ci_upper <- as.numeric(new_data$diffs_ci_upper)
+
+  #making sure biomarker name is included for later in pipeline
+  new_data$biomarker <- biomarker_name
+  
+  return(new_data)
+  
+}  
 
 ################################################################################################  Smoothing Function  #####################################################################################################
 
