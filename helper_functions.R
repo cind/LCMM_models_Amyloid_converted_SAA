@@ -1,4 +1,21 @@
 ################################################################################################  Bootstrapping Function  #####################################################################################################
+library(foreach)
+library(doParallel)
+library(lcmm)
+
+################################################################################################  Harmonization Functions  #####################################################################################################
+library(ggplot2)
+library(mgcv)
+library(dplyr)
+library(reshape2)
+library(devtools)
+library(matrixStats)
+# devtools::install_github("dgrtwo/ebbr")
+library(ebbr)
+# BiocManager::install("BiocParallel")
+library(BiocParallel)
+library(furniture)
+################################################################################################  Bootstrapping Function  #####################################################################################################
 
 lcmm_bootstrap_ci <- function(new_data, n_iterations, lcmm_data, name_of_biomarker) {
   
@@ -122,19 +139,7 @@ smoothing_bootstrapped_data <- function(bootstrapped_data, lcmm_predictions, spa
   
   return(bootstrapped_data)
 }
-                                  
-################################################################################################  Harmonization Functions  #####################################################################################################
-library(ggplot2)
-library(mgcv)
-library(dplyr)
-library(reshape2)
-library(devtools)
-library(matrixStats)
-# devtools::install_github("dgrtwo/ebbr")
-library(ebbr)
-# BiocManager::install("BiocParallel")
-library(BiocParallel)
-library(furniture)
+                                
 
 ################################################################################################    #####################################################################################################
 FindIndices <- function(data, trainvar, trainlevel) {
