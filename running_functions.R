@@ -1,7 +1,7 @@
 library(lcmm)
-source("/home/vhasfcschaat/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/helper_functions_parallel.R")
+source("helper_functions_parallel.R")
 
-root = "/home/vhasfcschaat/Longitudinal-COMBAT-GAM-and-analysis-of-longitudinal-data/lcmm_modelling_data"
+root = "lcmm_modelling_data"
 
 centiloid_plot_data <- read.csv(file.path(root, "centiloid_lcmm_data.csv"))
 tau_plot_data <- read.csv(file.path(root, "tau_lcmm_data.csv"))
