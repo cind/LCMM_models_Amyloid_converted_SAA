@@ -1,7 +1,7 @@
 source("helper_functions_parallel.R")
 
 root = "lcmm_modelling_data"
-
+library(lcmm)
 centiloid_plot_data <- read.csv(file.path(root, "centiloid_lcmm_data.csv"))
 tau_plot_data <- read.csv(file.path(root, "tau_lcmm_data.csv"))
 ptau_plot_data <- read.csv(file.path(root, "ptau_lcmm_data.csv"))
