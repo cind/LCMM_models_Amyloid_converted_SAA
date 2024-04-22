@@ -24,6 +24,42 @@ datnew   <- data.frame(adjusted_new_time = seq(-8, 8, length = 200),
                        diags2 = sample(c("Cognitively Impaired", "Cognitively Unimpaired"), 200, prob = c(.39, .61), replace = TRUE)
 )
 
+############################################################################################################
+# MRI: Meta-ROI
+############################################################################################################
+meta_roi_plot_data$RID <- as.numeric(meta_roi_plot_data$RID)
+
+meta_ROI_splines <- lcmm(meta_ROI ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+                         random = ~adjusted_new_time, subject="RID", maxiter = 300, data = meta_roi_plot_data, link = "3-equi-splines")
+
+#summary(meta_ROI_splines)
+
+#meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
+
+meta_ROI_test <- predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
+
+write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data.csv")
+
+############################################################################################################
+# MRI: Hippocampal Volume
+############################################################################################################
+hippocampal_volume_plot_data$RID <- as.numeric(hippocampal_volume_plot_data$RID)
+
+hippocampal_splines <- lcmm(hippocampal_volume ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+                            random = ~adjusted_new_time, subject="RID", maxiter = 300, data = hippocampal_volume_plot_data, link = "3-equi-splines")
+
+#summary(hippocampal_splines)
+
+#hippocampal_predict_splines <- predictlink(hippocampal_splines)
+
+hippocampal_test <- predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
+
+write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data.csv")
+
 #############################################################################
 #Centiloid
 #############################################################################
@@ -185,42 +221,6 @@ abeta_test <- predictY(abeta_splines, datnew, var.time = "adjusted_new_time", dr
 abeta_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = abeta_plot_data, name_of_biomarker = "ABETA")
 
 write.csv(abeta_bootstrapped_data, "abeta_bootstrapped_data.csv")
-
-############################################################################################################
-# MRI: Meta-ROI
-############################################################################################################
-meta_roi_plot_data$RID <- as.numeric(meta_roi_plot_data$RID)
-
-meta_ROI_splines <- lcmm(meta_ROI ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
-                         random = ~adjusted_new_time, subject="RID", maxiter = 300, data = meta_roi_plot_data, link = "3-equi-splines")
-
-#summary(meta_ROI_splines)
-
-#meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
-
-meta_ROI_test <- predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-
-meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
-
-write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data.csv")
-
-############################################################################################################
-# MRI: Hippocampal Volume
-############################################################################################################
-hippocampal_volume_plot_data$RID <- as.numeric(hippocampal_volume_plot_data$RID)
-
-hippocampal_splines <- lcmm(hippocampal_volume ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
-                            random = ~adjusted_new_time, subject="RID", maxiter = 300, data = hippocampal_volume_plot_data, link = "3-equi-splines")
-
-#summary(hippocampal_splines)
-
-#hippocampal_predict_splines <- predictlink(hippocampal_splines)
-
-hippocampal_test <- predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-
-hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
-
-write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data.csv")
 
 ############################################################################################################
 #E-COG: Subject
