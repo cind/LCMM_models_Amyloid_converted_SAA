@@ -10,8 +10,8 @@ mpacctrailsb_plot_data <- read.csv(file.path(root, "mpacctrailsb_lcmm_data.csv")
 cdrsb_plot_data <- read.csv(file.path(root, "cdrsb_lcmm_data.csv"))
 mmse_plot_data <- read.csv(file.path(root, "mmse_lcmm_data.csv"))
 fdg_plot_data <- read.csv(file.path(root, "fdg_lcmm_data.csv"))
-meta_roi_plot_data <- read.csv(file.path(root, "meta_roi_lcmm_data_no_aa.csv"))
-hippocampal_volume_plot_data <- read.csv(file.path(root, "hippocampal_volume_lcmm_data_no_aa.csv"))
+meta_roi_plot_data <- read.csv(file.path(root, "meta_roi_lcmm_data.csv"))
+hippocampal_volume_plot_data <- read.csv(file.path(root, "hippocampal_volume_lcmm_data.csv"))
 adas13_plot_data <- read.csv(file.path(root, "adas13_lcmm_data.csv"))
 ecog_s_plot_data <- read.csv(file.path(root, "ecog_s_lcmm_data.csv"))
 ecog_p_plot_data <- read.csv(file.path(root, "ecog_p_lcmm_data.csv"))
@@ -40,7 +40,7 @@ meta_ROI_test <- predictY(meta_ROI_splines, meta_roi_plot_data, var.time = "adju
 
 meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = meta_roi_plot_data, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
 
-write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data_no_aa.csv")
+write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data.csv")
 
 ############################################################################################################
 # MRI: Hippocampal Volume
@@ -58,7 +58,7 @@ hippocampal_test <- predictY(hippocampal_splines, hippocampal_volume_plot_data, 
 
 hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = hippocampal_volume_plot_data, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
-write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data_no_aa.csv")
+write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data.csv")
 
 #############################################################################
 #Centiloid
