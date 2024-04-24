@@ -36,7 +36,7 @@ meta_ROI_splines <- lcmm(meta_ROI ~ adjusted_new_time + age + age*adjusted_new_t
 
 #meta_ROI_predict_splines <- predictlink(meta_ROI_splines)
 
-meta_ROI_test <- predictY(meta_ROI_splines, meta_roi_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+meta_ROI_test <- lcmm::predictY(meta_ROI_splines, meta_roi_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = meta_roi_plot_data, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
 
@@ -54,7 +54,7 @@ hippocampal_splines <- lcmm(hippocampal_volume ~ adjusted_new_time + age + age*a
 
 #hippocampal_predict_splines <- predictlink(hippocampal_splines)
 
-hippocampal_test <- predictY(hippocampal_splines, hippocampal_volume_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+hippocampal_test <- lcmm::predictY(hippocampal_splines, hippocampal_volume_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = hippocampal_volume_plot_data, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
@@ -72,7 +72,7 @@ centiloid_splines <- lcmm(Centiloid ~ adjusted_new_time + age + age*adjusted_new
 
 #centiloid_predict_splines <- predictlink(centiloid_splines)
 
-centiloid_test <- predictY(centiloid_splines, centiloid_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+centiloid_test <- lcmm::predictY(centiloid_splines, centiloid_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 centiloid_bootstrapped_data <- lcmm_bootstrap_ci(new_data = centiloid_plot_data, n_iterations = 1000, lcmm_data = centiloid_plot_data, name_of_biomarker = "Centiloid")
 
@@ -90,7 +90,7 @@ fdg_splines <- lcmm(adjusted_Meta_ROI ~ adjusted_new_time + age + age*adjusted_n
 
 #fdg_predict_splines <- predictlink(fdg_splines)
 
-fdg_test <- predictY(fdg_splines, fdg_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+fdg_test <- lcmm::predictY(fdg_splines, fdg_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 fdg_bootstrapped_data <- lcmm_bootstrap_ci(new_data = fdg_plot_data, n_iterations = 1000, lcmm_data = fdg_plot_data, name_of_biomarker = "adjusted_Meta_ROI")
 
@@ -108,7 +108,7 @@ adas13_splines <- lcmm(ADAS13 ~ adjusted_new_time + age + age*adjusted_new_time 
 
 #adas13_predict_splines <- predictlink(adas13_splines)
 
-adas13_test <- predictY(adas13_splines, adas13_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+adas13_test <- lcmm::predictY(adas13_splines, adas13_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 adas13_bootstrapped_data <- lcmm_bootstrap_ci(new_data = adas13_plot_data, n_iterations = 1000, lcmm_data = adas13_plot_data, name_of_biomarker = "ADAS13")
 
@@ -126,7 +126,7 @@ mmse_splines <- lcmm(MMSE ~ adjusted_new_time + age + age*adjusted_new_time + PT
 
 #mmse_predict_splines <- predictlink(mmse_splines)
 
-mmse_test <- predictY(mmse_splines, mmse_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+mmse_test <- lcmm::predictY(mmse_splines, mmse_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 mmse_bootstrapped_data <- lcmm_bootstrap_ci(new_data = mmse_plot_data, n_iterations = 1000, lcmm_data = mmse_plot_data, name_of_biomarker = "MMSE")
 
@@ -144,7 +144,7 @@ cdrsb_splines <- lcmm(CDRSB ~ adjusted_new_time + age + age*adjusted_new_time + 
 
 #cdrsb_predict_splines <- predictlink(cdrsb_splines)
 
-cdrsb_test <- predictY(cdrsb_splines, cdrsb_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+cdrsb_test <- lcmm::predictY(cdrsb_splines, cdrsb_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 cdrsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = cdrsb_plot_data, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
 
@@ -162,7 +162,7 @@ mpacctrailsb_splines <- lcmm(mPACCtrailsB ~ adjusted_new_time + age + age*adjust
 
 #mpacctrailsb_predict_splines <- predictlink(mpacctrailsb_splines)
 
-mpacctrailsb_test <- predictY(mpacctrailsb_splines, mpacctrailsb_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+mpacctrailsb_test <- lcmm::predictY(mpacctrailsb_splines, mpacctrailsb_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 mpacctrailsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = mpacctrailsb_plot_data, n_iterations = 1000, lcmm_data = mpacctrailsb_plot_data, name_of_biomarker = "mPACCtrailsB")
 
@@ -180,7 +180,7 @@ tau_splines <- lcmm(TAU ~ adjusted_new_time + age + age*adjusted_new_time + PTGE
 
 #tau_predict_splines <- predictlink(tau_splines)
 
-tau_test <- predictY(tau_splines, tau_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+tau_test <- lcmm::predictY(tau_splines, tau_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 tau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = tau_plot_data, n_iterations = 1000, lcmm_data = tau_plot_data, name_of_biomarker = "TAU")
 
@@ -198,7 +198,7 @@ ptau_splines <- lcmm(PTAU ~ adjusted_new_time + age + age*adjusted_new_time + PT
 
 #ptau_predict_splines <- predictlink(ptau_splines)
 
-ptau_test <- predictY(ptau_splines, ptau_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+ptau_test <- lcmm::predictY(ptau_splines, ptau_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 ptau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ptau_plot_data, n_iterations = 1000, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
 
@@ -216,7 +216,7 @@ abeta_splines <- lcmm(ABETA ~ adjusted_new_time + age + age*adjusted_new_time + 
 
 #abeta_predict_splines <- predictlink(ptau_splines)
 
-abeta_test <- predictY(abeta_splines, abeta_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+abeta_test <- lcmm::predictY(abeta_splines, abeta_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 abeta_bootstrapped_data <- lcmm_bootstrap_ci(new_data = abeta_plot_data, n_iterations = 1000, lcmm_data = abeta_plot_data, name_of_biomarker = "ABETA")
 
@@ -234,7 +234,7 @@ ecog_s_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_t
 
 #ecog_s_predict_splines <- predictlink(ecog_s_splines)
 
-ecog_s_test <- predictY(ecog_s_splines, ecog_s_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+ecog_s_test <- lcmm::predictY(ecog_s_splines, ecog_s_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_s_plot_data, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
 
@@ -252,7 +252,7 @@ ecog_p_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_t
 
 #ecog_p_predict_splines <- predictlink(ecog_p_splines)
 
-ecog_p_test <- predictY(ecog_p_splines, ecog_p_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+ecog_p_test <- lcmm::predictY(ecog_p_splines, ecog_p_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
 ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_p_plot_data, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
 
