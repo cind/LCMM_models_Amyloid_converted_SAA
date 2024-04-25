@@ -10,8 +10,8 @@ mpacctrailsb_plot_data <- read.csv(file.path(root, "mpacctrailsb_lcmm_data.csv")
 cdrsb_plot_data <- read.csv(file.path(root, "cdrsb_lcmm_data.csv"))
 mmse_plot_data <- read.csv(file.path(root, "mmse_lcmm_data.csv"))
 fdg_plot_data <- read.csv(file.path(root, "fdg_lcmm_data.csv"))
-meta_roi_plot_data <- read.csv(file.path(root, "meta_roi_lcmm_data.csv"))
-hippocampal_volume_plot_data <- read.csv(file.path(root, "hippocampal_volume_lcmm_data.csv"))
+meta_roi_plot_data <- read.csv(file.path(root, "meta_roi_lcmm_data_no_adni1.csv"))
+hippocampal_volume_plot_data <- read.csv(file.path(root, "hippocampal_volume_lcmm_data_no_adni1.csv"))
 adas13_plot_data <- read.csv(file.path(root, "adas13_lcmm_data.csv"))
 ecog_s_plot_data <- read.csv(file.path(root, "ecog_s_lcmm_data.csv"))
 ecog_p_plot_data <- read.csv(file.path(root, "ecog_p_lcmm_data.csv"))
@@ -41,13 +41,13 @@ meta_ROI_test <- lcmm::predictY(meta_ROI_splines, meta_roi_plot_data, var.time =
 
 meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = meta_roi_plot_data, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
 
-write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data.csv")
+write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data_no_adni1.csv")
 
 meta_ROI_test_newdata <- lcmm::predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
 meta_ROI_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
 
-write.csv(meta_ROI_bootstrapped_data_newdata, "meta_ROI_bootstrapped_data_newdata.csv")
+write.csv(meta_ROI_bootstrapped_data_newdata, "meta_ROI_bootstrapped_data_newdata_no_adni1.csv")
 
 ############################################################################################################
 # MRI: Hippocampal Volume
@@ -65,13 +65,13 @@ hippocampal_test <- lcmm::predictY(hippocampal_splines, hippocampal_volume_plot_
 
 hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = hippocampal_volume_plot_data, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
-write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data.csv")
+write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data_no_adni1.csv")
 
 hippocampal_test_newdata <- lcmm::predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
 hippocampal_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
-write.csv(hippocampal_bootstrapped_data_newdata, "hippocampal_bootstrapped_data_newdata.csv")
+write.csv(hippocampal_bootstrapped_data_newdata, "hippocampal_bootstrapped_data_newdata_no_adni1.csv")
 
 #########################################################################################################
 # CDRSB
