@@ -21,7 +21,8 @@ datnew   <- data.frame(adjusted_new_time = seq(-8, 8, length = 200),
                        apoe = sample(c("E2", "E3", "E4"), 200, prob = c(0.06, 0.56, 0.38), replace = TRUE),
                        PTGENDER = sample(c(1, 2), 200, prob = c(0.45, 0.55), replace = TRUE),
                        PTEDUCAT = sample(c(12, 13, 14, 15, 16, 17, 18, 19, 20), 200, prob = c(0.11, 0.03, 0.04, 0.05, 0.26, 0.05, 0.22, 0.08, 0.14), replace = TRUE),
-                       diags2 = sample(c("Cognitively Impaired", "Cognitively Unimpaired"), 200, prob = c(.39, .61), replace = TRUE)
+                       diags2 = sample(c("Cognitively Impaired", "Cognitively Unimpaired"), 200, prob = c(.39, .61), replace = TRUE),
+                       CDGLOBAL = sample(c(0, 0.5, 1, 2), 200, prob = c(0.658, 0.311, 0.030, 0.001), replace = TRUE)
 )
 
 ############################################################################################################
@@ -42,6 +43,12 @@ meta_ROI_bootstrapped_data <- lcmm_bootstrap_ci(new_data = meta_roi_plot_data, n
 
 write.csv(meta_ROI_bootstrapped_data, "meta_ROI_bootstrapped_data.csv")
 
+meta_ROI_test_newdata <- lcmm::predictY(meta_ROI_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+meta_ROI_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = meta_roi_plot_data, name_of_biomarker = "meta_ROI")
+
+write.csv(meta_ROI_bootstrapped_data_newdata, "meta_ROI_bootstrapped_data_newdata.csv")
+
 ############################################################################################################
 # MRI: Hippocampal Volume
 ############################################################################################################
@@ -59,6 +66,12 @@ hippocampal_test <- lcmm::predictY(hippocampal_splines, hippocampal_volume_plot_
 hippocampal_bootstrapped_data <- lcmm_bootstrap_ci(new_data = hippocampal_volume_plot_data, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
 
 write.csv(hippocampal_bootstrapped_data, "hippocampal_bootstrapped_data.csv")
+
+hippocampal_test_newdata <- lcmm::predictY(hippocampal_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+hippocampal_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = hippocampal_volume_plot_data, name_of_biomarker = "hippocampal_volume")
+
+write.csv(hippocampal_bootstrapped_data_newdata, "hippocampal_bootstrapped_data_newdata.csv")
 
 #############################################################################
 #Centiloid
@@ -78,6 +91,12 @@ centiloid_bootstrapped_data <- lcmm_bootstrap_ci(new_data = centiloid_plot_data,
 
 write.csv(centiloid_bootstrapped_data, "centiloid_bootstrapped_data.csv")
 
+centiloid_test_newdata <- lcmm::predictY(centiloid_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+centiloid_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = centiloid_plot_data, name_of_biomarker = "Centiloid")
+
+write.csv(centiloid_bootstrapped_data_newdata, "centiloid_bootstrapped_data_newdata.csv")
+
 #####################################################################################
 # looking at change in fdg PET Meta-ROI
 #####################################################################################
@@ -95,6 +114,12 @@ fdg_test <- lcmm::predictY(fdg_splines, fdg_plot_data, var.time = "adjusted_new_
 fdg_bootstrapped_data <- lcmm_bootstrap_ci(new_data = fdg_plot_data, n_iterations = 1000, lcmm_data = fdg_plot_data, name_of_biomarker = "adjusted_Meta_ROI")
 
 write.csv(fdg_bootstrapped_data, "fdg_bootstrapped_data.csv")
+
+fdg_test_newdata <- lcmm::predictY(fdg_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+fdg_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = fdg_plot_data, name_of_biomarker = "adjusted_Meta_ROI")
+
+write.csv(fdg_bootstrapped_data_newdata, "fdg_bootstrapped_data_newdata.csv")
 
 #####################################################################################
 # ADAS13
@@ -114,6 +139,12 @@ adas13_bootstrapped_data <- lcmm_bootstrap_ci(new_data = adas13_plot_data, n_ite
 
 write.csv(adas13_bootstrapped_data, "adas13_bootstrapped_data.csv")
 
+adas13_test_newdata <- lcmm::predictY(adas13_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+adas13_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = adas13_plot_data, name_of_biomarker = "ADAS13")
+
+write.csv(adas13_bootstrapped_data_newdata, "adas13_bootstrapped_data_newdata.csv")
+
 ########################################################################################################
 #MMSE
 ########################################################################################################
@@ -131,6 +162,12 @@ mmse_test <- lcmm::predictY(mmse_splines, mmse_plot_data, var.time = "adjusted_n
 mmse_bootstrapped_data <- lcmm_bootstrap_ci(new_data = mmse_plot_data, n_iterations = 1000, lcmm_data = mmse_plot_data, name_of_biomarker = "MMSE")
 
 write.csv(mmse_bootstrapped_data, "mmse_bootstrapped_data.csv")
+
+mmse_test_newdata <- lcmm::predictY(mmse_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+mmse_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = mmse_plot_data, name_of_biomarker = "MMSE")
+
+write.csv(mmse_bootstrapped_data_newdata, "mmse_bootstrapped_data_newdata.csv")
 
 #########################################################################################################
 # CDRSB
@@ -150,6 +187,12 @@ cdrsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = cdrsb_plot_data, n_itera
 
 write.csv(cdrsb_bootstrapped_data, "cdrsb_bootstrapped_data.csv")
 
+cdrsb_test_newdata <- lcmm::predictY(cdrsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+cdrsb_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
+
+write.csv(cdrsb_bootstrapped_data_newdata, "cdrsb_bootstrapped_data_newdata.csv")
+
 ##########################################################################################################
 # mPACCtrailsB
 ##########################################################################################################
@@ -167,6 +210,12 @@ mpacctrailsb_test <- lcmm::predictY(mpacctrailsb_splines, mpacctrailsb_plot_data
 mpacctrailsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = mpacctrailsb_plot_data, n_iterations = 1000, lcmm_data = mpacctrailsb_plot_data, name_of_biomarker = "mPACCtrailsB")
 
 write.csv(mpacctrailsb_bootstrapped_data, "mpacctrailsb_bootstrapped_data.csv")
+
+mpacctrailsb_test_newdata <- lcmm::predictY(mpacctrailsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+mpacctrailsb_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = mpacctrailsb_plot_data, name_of_biomarker = "mPACCtrailsB")
+
+write.csv(mpacctrailsb_bootstrapped_data_newdata, "mpacctrailsb_bootstrapped_data_newdata.csv")
 
 ###########################################################################################################
 # TAU
@@ -186,6 +235,12 @@ tau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = tau_plot_data, n_iteration
 
 write.csv(tau_bootstrapped_data, "tau_bootstrapped_data.csv")
 
+tau_test_newdata <- lcmm::predictY(tau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+tau_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = tau_plot_data, name_of_biomarker = "TAU")
+
+write.csv(tau_bootstrapped_data_newdata, "tau_bootstrapped_data_newdata.csv")
+
 ###########################################################################################################
 # PTAU
 ###########################################################################################################
@@ -203,6 +258,12 @@ ptau_test <- lcmm::predictY(ptau_splines, ptau_plot_data, var.time = "adjusted_n
 ptau_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ptau_plot_data, n_iterations = 1000, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
 
 write.csv(ptau_bootstrapped_data, "ptau_bootstrapped_data.csv")
+
+ptau_test_newdata <- lcmm::predictY(ptau_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+ptau_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ptau_plot_data, name_of_biomarker = "PTAU")
+
+write.csv(ptau_bootstrapped_data_newdata, "ptau_bootstrapped_data_newdata.csv")
 
 ###########################################################################################################
 # ABETA
@@ -222,6 +283,12 @@ abeta_bootstrapped_data <- lcmm_bootstrap_ci(new_data = abeta_plot_data, n_itera
 
 write.csv(abeta_bootstrapped_data, "abeta_bootstrapped_data.csv")
 
+abeta_test_newdata <- lcmm::predictY(abeta_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+abeta_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = abeta_plot_data, name_of_biomarker = "ABETA")
+
+write.csv(abeta_bootstrapped_data_newdata, "abeta_bootstrapped_data_newdata.csv")
+
 ############################################################################################################
 #E-COG: Subject
 ############################################################################################################
@@ -240,6 +307,12 @@ ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_s_plot_data, n_ite
 
 write.csv(ecog_s_bootstrapped_data, "ecog_s_bootstrapped_data.csv")
 
+ecog_s_test_newdata <- lcmm::predictY(ecog_s_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_s_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_s_bootstrapped_data_newdata, "ecog_s_bootstrapped_data_newdata.csv")
+
 ############################################################################################################
 #E-COG: Partner
 ############################################################################################################
@@ -257,3 +330,9 @@ ecog_p_test <- lcmm::predictY(ecog_p_splines, ecog_p_plot_data, var.time = "adju
 ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_p_plot_data, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
 
 write.csv(ecog_p_bootstrapped_data, "ecog_p_bootstrapped_data.csv")
+
+ecog_p_test_newdata <- lcmm::predictY(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_p_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_p_bootstrapped_data_newdata, "ecog_p_bootstrapped_data_newdata.csv")
