@@ -78,7 +78,7 @@ write.csv(hippocampal_bootstrapped_data_newdata, "hippocampal_bootstrapped_data_
 #########################################################################################################
 cdrsb_plot_data$RID <- as.numeric(cdrsb_plot_data$RID)
 
-cdrsb_splines <- lcmm(CDRSB ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+cdrsb_splines <- lcmm(CDRSB ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe + CDGLOBAL, #link = c("5-quantsplines"),
                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = cdrsb_plot_data, link = "3-equi-splines")
 
 #summary(cdrsb_splines)
@@ -87,13 +87,13 @@ cdrsb_splines <- lcmm(CDRSB ~ adjusted_new_time + age + age*adjusted_new_time + 
 
 cdrsb_test <- lcmm::predictY(cdrsb_splines, cdrsb_plot_data, var.time = "adjusted_new_time", draws = TRUE)
 
-cdrsb_bootstrapped_data <- lcmm_bootstrap_ci(new_data = cdrsb_plot_data, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
+cdrsb_bootstrapped_data <- lcmm_bootstrap_ci_cdrsb(new_data = cdrsb_plot_data, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
 
 write.csv(cdrsb_bootstrapped_data, "cdrsb_bootstrapped_data.csv")
 
 cdrsb_test_newdata <- lcmm::predictY(cdrsb_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
 
-cdrsb_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
+cdrsb_bootstrapped_data_newdata <- lcmm_bootstrap_ci_cdrsb(new_data = datnew, n_iterations = 1000, lcmm_data = cdrsb_plot_data, name_of_biomarker = "CDRSB")
 
 write.csv(cdrsb_bootstrapped_data_newdata, "cdrsb_bootstrapped_data_newdata.csv")
 
