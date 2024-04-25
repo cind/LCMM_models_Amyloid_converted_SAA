@@ -26,6 +26,54 @@ datnew   <- data.frame(adjusted_new_time = seq(-8, 8, length = 200),
 )
 
 ############################################################################################################
+#E-COG: Subject
+############################################################################################################
+ecog_s_plot_data$RID <- as.numeric(ecog_s_plot_data$RID)
+
+ecog_s_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_s_plot_data, link = "3-equi-splines")
+
+#summary(ecog_s_splines)
+
+#ecog_s_predict_splines <- predictlink(ecog_s_splines)
+
+ecog_s_test <- lcmm::predictY(ecog_s_splines, ecog_s_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_s_plot_data, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_s_bootstrapped_data, "ecog_s_bootstrapped_data.csv")
+
+ecog_s_test_newdata <- lcmm::predictY(ecog_s_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_s_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_s_bootstrapped_data_newdata, "ecog_s_bootstrapped_data_newdata.csv")
+
+############################################################################################################
+#E-COG: Partner
+############################################################################################################
+ecog_p_plot_data$RID <- as.numeric(ecog_p_plot_data$RID)
+
+ecog_p_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
+                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_p_plot_data, link = "3-equi-splines")
+
+#summary(ecog_p_splines)
+
+#ecog_p_predict_splines <- predictlink(ecog_p_splines)
+
+ecog_p_test <- lcmm::predictY(ecog_p_splines, ecog_p_plot_data, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_p_plot_data, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_p_bootstrapped_data, "ecog_p_bootstrapped_data.csv")
+
+ecog_p_test_newdata <- lcmm::predictY(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
+
+ecog_p_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
+
+write.csv(ecog_p_bootstrapped_data_newdata, "ecog_p_bootstrapped_data_newdata.csv")
+
+############################################################################################################
 # MRI: Meta-ROI
 ############################################################################################################
 meta_roi_plot_data$RID <- as.numeric(meta_roi_plot_data$RID)
@@ -289,50 +337,4 @@ abeta_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterat
 
 write.csv(abeta_bootstrapped_data_newdata, "abeta_bootstrapped_data_newdata.csv")
 
-############################################################################################################
-#E-COG: Subject
-############################################################################################################
-ecog_s_plot_data$RID <- as.numeric(ecog_s_plot_data$RID)
 
-ecog_s_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
-                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_s_plot_data, link = "3-equi-splines")
-
-#summary(ecog_s_splines)
-
-#ecog_s_predict_splines <- predictlink(ecog_s_splines)
-
-ecog_s_test <- lcmm::predictY(ecog_s_splines, ecog_s_plot_data, var.time = "adjusted_new_time", draws = TRUE)
-
-ecog_s_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_s_plot_data, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
-
-write.csv(ecog_s_bootstrapped_data, "ecog_s_bootstrapped_data.csv")
-
-ecog_s_test_newdata <- lcmm::predictY(ecog_s_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-
-ecog_s_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_s_plot_data, name_of_biomarker = "EcogGlobal")
-
-write.csv(ecog_s_bootstrapped_data_newdata, "ecog_s_bootstrapped_data_newdata.csv")
-
-############################################################################################################
-#E-COG: Partner
-############################################################################################################
-ecog_p_plot_data$RID <- as.numeric(ecog_p_plot_data$RID)
-
-ecog_p_splines <- lcmm(EcogGlobal ~ adjusted_new_time + age + age*adjusted_new_time + PTGENDER + PTEDUCAT + apoe, #link = c("5-quantsplines"),
-                       random = ~adjusted_new_time, subject="RID", maxiter = 300, data = ecog_p_plot_data, link = "3-equi-splines")
-
-#summary(ecog_p_splines)
-
-#ecog_p_predict_splines <- predictlink(ecog_p_splines)
-
-ecog_p_test <- lcmm::predictY(ecog_p_splines, ecog_p_plot_data, var.time = "adjusted_new_time", draws = TRUE)
-
-ecog_p_bootstrapped_data <- lcmm_bootstrap_ci(new_data = ecog_p_plot_data, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
-
-write.csv(ecog_p_bootstrapped_data, "ecog_p_bootstrapped_data.csv")
-
-ecog_p_test_newdata <- lcmm::predictY(ecog_p_splines, datnew, var.time = "adjusted_new_time", draws = TRUE)
-
-ecog_p_bootstrapped_data_newdata <- lcmm_bootstrap_ci(new_data = datnew, n_iterations = 1000, lcmm_data = ecog_p_plot_data, name_of_biomarker = "EcogGlobal")
-
-write.csv(ecog_p_bootstrapped_data_newdata, "ecog_p_bootstrapped_data_newdata.csv")
