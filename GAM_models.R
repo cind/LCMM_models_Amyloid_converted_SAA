@@ -50,7 +50,7 @@ centiloid_plot_data$RID <- as.numeric(centiloid_plot_data$RID)
 
 gam.model_centiloid <- mgcv::gam(formula = Centiloid ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                                    s(RID, bs = "re") + 
-                                   age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                                   age + PTEDUCAT + apoe + PTGENDER,
                                  data = centiloid_plot_data,
                                  family = gaussian,
                                  method = "ML")
@@ -97,6 +97,16 @@ gam.p_centiloid <- gam.p_centiloid +
   ggplot2::geom_vline(aes(xintercept=min(inter_centiloid)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_centiloid),digits=1)),x=(min(inter_centiloid)-1),angle='90',y=10)
 
+#plotting raw data
+raw_centiloid_plot <- ggplot(data = centiloid_plot_data, aes(x = adjusted_new_time, y = Centiloid, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_centiloid)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # fdg
 #####################################################################################################
@@ -105,7 +115,7 @@ fdg_plot_data$RID <- as.numeric(fdg_plot_data$RID)
 
 gam.model_fdg <- mgcv::gam(formula = adjusted_Meta_ROI ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                              s(RID, bs = "re") + 
-                             age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                             age + PTEDUCAT + apoe + PTGENDER,
                            data = fdg_plot_data,
                            family = gaussian,
                            method = "ML")
@@ -134,7 +144,7 @@ df.fit_fdg <- data.frame(cbind(adjusted_new_time = fdg_plot_data$adjusted_new_ti
 
 df.fit_fdg <- df.fit_fdg[!is.na(df.fit_fdg$meas),]
 
-meas_fn_fdg <- "FDG PET Meta-ROI"
+meas_fn_fdg <- "FDG PET meta-ROI"
 
 gam.p_fdg <- ggplot(data=df.fit_fdg, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_fdg$lowerBound),max(df.fit_fdg$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_fdg) +
@@ -146,12 +156,24 @@ gam.p_fdg <- ggplot(data=df.fit_fdg, aes(adjusted_new_time,meas)) + ylim(c(min(d
   theme(legend.position="none") +
   xlab("Years from Aβ+") + ylab(meas_fn_fdg)
 
-inter_fdg <- na.contiguous(m2.dsig_fdg$decr)
+# inter_fdg <- na.contiguous(m2.dsig_fdg$decr)
+# 
+# gam.p_fdg <- gam.p_fdg + 
+#   geom_line(aes(adjusted_new_time, fit), color = "black", size=1.5, data=df.fit_fdg[df.fit_fdg$adjusted_new_time>=min(inter_fdg) & df.fit_fdg$adjusted_new_time<=max(inter_fdg),]) + 
+#   ggplot2::geom_vline(aes(xintercept=min(inter_fdg)),linetype="dashed",color="black") + #inflection point
+#   ggplot2::annotate(geom="text",label=paste0(round(min(inter_fdg),digits=1)),x=(min(inter_fdg)-1),angle='90',y=1.28)
 
-gam.p_fdg <- gam.p_fdg + 
-  geom_line(aes(adjusted_new_time, fit), color = "black", size=1.5, data=df.fit_fdg[df.fit_fdg$adjusted_new_time>=min(inter_fdg) & df.fit_fdg$adjusted_new_time<=max(inter_fdg),]) + 
-  ggplot2::geom_vline(aes(xintercept=min(inter_fdg)),linetype="dashed",color="black") + #inflection point
-  ggplot2::annotate(geom="text",label=paste0(round(min(inter_fdg),digits=1)),x=(min(inter_fdg)-1),angle='90',y=1.28)
+#plotting raw data
+raw_fdg_plot <- ggplot(data = fdg_plot_data, aes(x = adjusted_new_time, y = adjusted_Meta_ROI, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_fdg)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  # theme(legend.position="none") +
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+raw_fdg_plot$labels$colour <- "CDR"
+
 
 #####################################################################################################
 # csf tau
@@ -161,7 +183,7 @@ tau_plot_data$RID <- as.numeric(tau_plot_data$RID)
 
 gam.model_tau <- mgcv::gam(formula = TAU ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) + # k = 4????, fx = TRUE, bs = "cs"
                              s(RID, bs = "re") + 
-                             age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                             age + PTEDUCAT + apoe + PTGENDER,
                            data = tau_plot_data,
                            family = gaussian,
                            method = "ML")
@@ -189,7 +211,7 @@ df.fit_tau <- data.frame(cbind(adjusted_new_time = tau_plot_data$adjusted_new_ti
 
 df.fit_tau <- df.fit_tau[!is.na(df.fit_tau$meas),]
 
-meas_fn_tau <- "CSF Total Tau"
+meas_fn_tau <- "CSF total tau"
 
 gam.p_tau <- ggplot(data=df.fit_tau, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_tau$lowerBound),max(df.fit_tau$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_tau) +
@@ -208,6 +230,16 @@ gam.p_tau <- gam.p_tau +
   ggplot2::geom_vline(aes(xintercept=min(inter_tau)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_tau),digits=1)),x=(min(inter_tau)-1),angle='90',y=300)
 
+#plotting raw data
+raw_tau_plot <- ggplot(data = tau_plot_data, aes(x = adjusted_new_time, y = TAU, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_tau)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") +
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # csf ptau
 #####################################################################################################
@@ -216,7 +248,7 @@ ptau_plot_data$RID <- as.numeric(ptau_plot_data$RID)
 
 gam.model_ptau <- mgcv::gam(formula = PTAU ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                               s(RID, bs = "re") + 
-                              age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                              age + PTEDUCAT + apoe + PTGENDER,
                             data = ptau_plot_data,
                             family = gaussian,
                             method = "ML")
@@ -244,7 +276,7 @@ df.fit_ptau <- data.frame(cbind(adjusted_new_time = ptau_plot_data$adjusted_new_
 
 df.fit_ptau <- df.fit_ptau[!is.na(df.fit_ptau$meas),]
 
-meas_fn_ptau <- "CSF P-Tau181"
+meas_fn_ptau <- "CSF p-tau181"
 
 gam.p_ptau <- ggplot(data=df.fit_ptau, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_ptau$lowerBound),max(df.fit_ptau$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_ptau) +
@@ -263,6 +295,16 @@ gam.p_ptau <- gam.p_ptau +
   ggplot2::geom_vline(aes(xintercept=min(inter_ptau)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_ptau),digits=1)),x=(min(inter_ptau)-1),angle='90',y=27)
 
+#plotting raw data
+raw_ptau_plot <- ggplot(data = ptau_plot_data, aes(x = adjusted_new_time, y = PTAU, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_ptau)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # csf Amyloid
 #####################################################################################################
@@ -271,7 +313,7 @@ abeta_plot_data$RID <- as.numeric(abeta_plot_data$RID)
 
 gam.model_abeta <- mgcv::gam(formula = ABETA ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                                s(RID, bs = "re") + 
-                               age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                               age + PTEDUCAT + apoe + PTGENDER,
                              data = abeta_plot_data,
                              family = gaussian,
                              method = "ML")
@@ -318,6 +360,16 @@ gam.p_abeta <- gam.p_abeta +
   ggplot2::geom_vline(aes(xintercept=min(inter_abeta)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_abeta),digits=1)),x=(min(inter_abeta)-1),angle='90',y=1300)
 
+#plotting raw data
+raw_abeta_plot <- ggplot(data = abeta_plot_data, aes(x = adjusted_new_time, y = ABETA, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_abeta)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # meta-roi
 #####################################################################################################
@@ -326,7 +378,7 @@ meta_roi_plot_data$RID <- as.numeric(meta_roi_plot_data$RID)
 
 gam.model_meta_roi <- mgcv::gam(formula = meta_ROI ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                                   s(RID, bs = "re") + 
-                                  age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                                  age + PTEDUCAT + apoe + PTGENDER,
                                 data = meta_roi_plot_data,
                                 family = gaussian,
                                 method = "ML")
@@ -354,7 +406,7 @@ df.fit_meta_roi <- data.frame(cbind(adjusted_new_time = meta_roi_plot_data$adjus
 
 df.fit_meta_roi <- df.fit_meta_roi[!is.na(df.fit_meta_roi$meas),]
 
-meas_fn_meta_roi <- "Meta-ROI"
+meas_fn_meta_roi <- "meta-ROI cortical thickness"
 
 gam.p_meta_roi <- ggplot(data=df.fit_meta_roi, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_meta_roi$lowerBound),max(df.fit_meta_roi$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_meta_roi) +
@@ -366,14 +418,24 @@ gam.p_meta_roi <- ggplot(data=df.fit_meta_roi, aes(adjusted_new_time,meas)) + yl
   theme(legend.position="none") +
   xlab("Years from Aβ+") + ylab(meas_fn_meta_roi)
 
-inter_meta_roi <- na.contiguous(m2.dsig_meta_roi$decr)
-
+# inter_meta_roi <- na.contiguous(m2.dsig_meta_roi$decr)
+# 
 # gam.p_meta_roi <- gam.p_meta_roi + 
 #   geom_line(aes(adjusted_new_time, fit), color = "black", size=1.5, data=df.fit_meta_roi[df.fit_meta_roi$adjusted_new_time>=min(inter_meta_roi) & df.fit_meta_roi$adjusted_new_time<=max(inter_meta_roi),]) + 
 #   ggplot2::geom_vline(aes(xintercept=min(inter_meta_roi)),linetype="dashed",color="black") + #inflection point
 #   ggplot2::annotate(geom="text",label=paste0(round(min(inter_meta_roi),digits=1)),x=(min(inter_meta_roi)-1),angle='90',y=10)
 
 #no significance
+
+#plotting raw data
+raw_meta_roi_plot <- ggplot(data = meta_roi_plot_data, aes(x = adjusted_new_time, y = meta_ROI, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_meta_roi)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
 
 #####################################################################################################
 # hippocampal volume
@@ -383,7 +445,7 @@ hippocampal_volume_plot_data$RID <- as.numeric(hippocampal_volume_plot_data$RID)
 
 gam.model_hippocampal_volume <- mgcv::gam(formula = hippocampal_volume ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
                                             s(RID, bs = "re") + 
-                                            age + PTEDUCAT + apoe + PTGENDER + CDGLOBAL,
+                                            age + PTEDUCAT + apoe + PTGENDER,
                                           data = hippocampal_volume_plot_data,
                                           family = gaussian,
                                           method = "ML")
@@ -429,6 +491,16 @@ gam.p_hippocampal_volume <- gam.p_hippocampal_volume +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=1.5, data=df.fit_hippocampal_volume[df.fit_hippocampal_volume$adjusted_new_time>=min(inter_hippocampal_volume) & df.fit_hippocampal_volume$adjusted_new_time<=max(inter_hippocampal_volume),]) + 
   ggplot2::geom_vline(aes(xintercept=min(inter_hippocampal_volume)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_hippocampal_volume),digits=1)),x=(min(inter_hippocampal_volume)-1),angle='90',y=2200)
+
+#plotting raw data
+raw_hippocampal_volume_plot <- ggplot(data = hippocampal_volume_plot_data, aes(x = adjusted_new_time, y = hippocampal_volume, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_hippocampal_volume)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
 
 #####################################################################################################
 # Ecog - Subject
@@ -485,6 +557,17 @@ gam.p_ecog_s <- gam.p_ecog_s +
   ggplot2::geom_vline(aes(xintercept=min(inter_ecog_s)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_ecog_s),digits=1)),x=(min(inter_ecog_s)-1),angle='90',y=1.35)
 
+#plotting raw data
+raw_ecog_s_plot <- ggplot(data = ecog_s_plot_data, aes(x = adjusted_new_time, y = EcogGlobal, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_ecog_s)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  # theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+raw_ecog_s_plot$labels$colour <- "CDR"
+
 
 #####################################################################################################
 # Ecog - Study Partner
@@ -540,9 +623,20 @@ gam.p_ecog_p <- gam.p_ecog_p +
   ggplot2::geom_vline(aes(xintercept=min(inter_ecog_p)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_ecog_p),digits=1)),x=(min(inter_ecog_p)-1),angle='90',y=1.1)
 
+#plotting raw data
+raw_ecog_p_plot <- ggplot(data = ecog_p_plot_data, aes(x = adjusted_new_time, y = EcogGlobal, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_ecog_p)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # ADAS13
 #####################################################################################################
+
 adas13_plot_data$RID <- as.numeric(adas13_plot_data$RID)
 
 gam.model_adas13 <- mgcv::gam(formula = ADAS13 ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
@@ -575,7 +669,7 @@ df.fit_adas13 <- data.frame(cbind(adjusted_new_time = adas13_plot_data$adjusted_
 
 df.fit_adas13 <- df.fit_adas13[!is.na(df.fit_adas13$meas),]
 
-meas_fn_adas13 <- "ADAS13"
+meas_fn_adas13 <- "ADAS-Cog13"
 
 gam.p_adas13 <- ggplot(data=df.fit_adas13, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_adas13$lowerBound),max(df.fit_adas13$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_adas13) +
@@ -593,6 +687,16 @@ gam.p_adas13 <- gam.p_adas13 +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=1.5, data=df.fit_adas13[df.fit_adas13$adjusted_new_time>=min(inter_adas13) & df.fit_adas13$adjusted_new_time<=max(inter_adas13),]) + 
   ggplot2::geom_vline(aes(xintercept=min(inter_adas13)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_adas13),digits=1)),x=(min(inter_adas13)-1),angle='90',y=10)
+
+#plotting raw data
+raw_adas13_plot <- ggplot(data = adas13_plot_data, aes(x = adjusted_new_time, y = ADAS13, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_adas13)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
 
 #####################################################################################################
 # MMSE
@@ -649,9 +753,20 @@ gam.p_mmse <- gam.p_mmse +
   ggplot2::geom_vline(aes(xintercept=min(inter_mmse)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_mmse),digits=1)),x=(min(inter_mmse)-1),angle='90',y=27)
 
+#plotting raw data
+raw_mmse_plot <- ggplot(data = mmse_plot_data, aes(x = adjusted_new_time, y = MMSE, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_mmse)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # mPACCtrailsB
 #####################################################################################################
+
 mpacctrailsb_plot_data$RID <- as.numeric(mpacctrailsb_plot_data$RID)
 
 gam.model_mpacctrailsb <- mgcv::gam(formula = mPACCtrailsB ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
@@ -684,7 +799,7 @@ df.fit_mpacctrailsb <- data.frame(cbind(adjusted_new_time = mpacctrailsb_plot_da
 
 df.fit_mpacctrailsb <- df.fit_mpacctrailsb[!is.na(df.fit_mpacctrailsb$meas),]
 
-meas_fn_mpacctrailsb <- "mPACCtrailsB"
+meas_fn_mpacctrailsb <- "PACC"
 
 gam.p_mpacctrailsb <- ggplot(data=df.fit_mpacctrailsb, aes(adjusted_new_time,meas)) + ylim(c(min(df.fit_mpacctrailsb$lowerBound),max(df.fit_mpacctrailsb$upperBound))) +
   geom_line(aes(adjusted_new_time, fit), color = "black", size=0.25, data=df.fit_mpacctrailsb) +
@@ -703,10 +818,20 @@ gam.p_mpacctrailsb <- gam.p_mpacctrailsb +
   ggplot2::geom_vline(aes(xintercept=min(inter_mpacctrailsb)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_mpacctrailsb),digits=1)),x=(min(inter_mpacctrailsb)-1),angle='90',y=-.3)
 
+#plotting raw data
+raw_mpacctrailsb_plot <- ggplot(data = mpacctrailsb_plot_data, aes(x = adjusted_new_time, y = mPACCtrailsB, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_mpacctrailsb)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
 
 #####################################################################################################
 # CDRSB
 #####################################################################################################
+
 cdrsb_plot_data$RID <- as.numeric(cdrsb_plot_data$RID)
 
 gam.model_cdrsb <- mgcv::gam(formula = CDRSB ~ s(adjusted_new_time, bs = "cs", k = 4, fx = TRUE) +
@@ -758,14 +883,51 @@ gam.p_cdrsb <- gam.p_cdrsb +
   ggplot2::geom_vline(aes(xintercept=min(inter_cdrsb)),linetype="dashed",color="black") + #inflection point
   ggplot2::annotate(geom="text",label=paste0(round(min(inter_cdrsb),digits=1)),x=(min(inter_cdrsb)-1),angle='90',y= 0.4)
 
+#plotting raw data
+raw_cdrsb_plot <- ggplot(data = cdrsb_plot_data, aes(x = adjusted_new_time, y = CDRSB, group = RID, color = as.factor(CDGLOBAL))) +
+  theme_classic() + 
+  ylab(unique(meas_fn_cdrsb)) + 
+  scale_x_continuous(name = "Years from Aβ+", breaks = seq(-10, 10, by = 2)) + #limits=c(-8, 8)) +
+  theme(legend.position="none") + 
+  geom_point(size = .2) +
+  geom_line(size = .2) +
+  scale_color_manual(values=c("darkblue", "forestgreen", "darkorange", "red"))
+
 #####################################################################################################
 # plotting
 #####################################################################################################
 
+#GAM plots
 csf_centiloid <- gam.p_centiloid + gam.p_abeta + gam.p_ptau + gam.p_tau + plot_layout(nrow = 2)
 
 scans <- gam.p_hippocampal_volume + gam.p_meta_roi + gam.p_fdg + plot_layout(nrow = 1)
 
-(csf_centiloid) / (scans) + plot_layout(heights = c(2, 1)) + plot_annotation(tag_levels = 'a') &  theme(plot.tag = element_text(face = 'bold'))
+fig1 <- (csf_centiloid) / (scans) + plot_layout(heights = c(2, 1)) + plot_annotation(tag_levels = 'A') &  theme(plot.tag = element_text(face = 'bold'))
 
-gam.p_cdrsb + gam.p_adas13 + gam.p_mmse + gam.p_mpacctrailsb + gam.p_ecog_p + gam.p_ecog_s + plot_layout(nrow = 2) + plot_annotation(tag_levels = 'a') &  theme(plot.tag = element_text(face = 'bold'))
+ragg::agg_tiff("fig1.jpg", width = 9, height = 8, units = "in", res = 300)
+fig1
+dev.off()
+
+
+fig2 <- gam.p_cdrsb + gam.p_adas13 + gam.p_mmse + gam.p_mpacctrailsb + gam.p_ecog_p + gam.p_ecog_s + plot_layout(nrow = 2) + plot_annotation(tag_levels = 'A') &  theme(plot.tag = element_text(face = 'bold'))
+
+ragg::agg_tiff("fig2.jpg", width = 9, height = 5, units = "in", res = 300)
+fig2
+dev.off()
+
+#raw plots
+csf_centiloid_raw <- raw_centiloid_plot + raw_abeta_plot + raw_ptau_plot + raw_tau_plot + plot_layout(nrow = 2)
+
+scans_raw <- raw_hippocampal_volume_plot + raw_meta_roi_plot + raw_fdg_plot + plot_layout(nrow = 1)
+
+fig3 <- (csf_centiloid_raw) / (scans_raw) + plot_annotation(tag_levels = 'A') &  theme(plot.tag = element_text(face = 'bold'))
+
+ragg::agg_tiff("fig3.jpg", width = 9, height = 8, units = "in", res = 300)
+fig3
+dev.off()
+
+fig4 <- raw_cdrsb_plot + raw_adas13_plot + raw_mmse_plot + raw_mpacctrailsb_plot + raw_ecog_p_plot + raw_ecog_s_plot + plot_layout(nrow = 2) + plot_annotation(tag_levels = 'A') &  theme(plot.tag = element_text(face = 'bold'))
+
+ragg::agg_tiff("fig4.jpg", width = 9, height = 5, units = "in", res = 300)
+fig4
+dev.off()
